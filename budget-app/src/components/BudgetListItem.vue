@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     deleteItem(id) {
-      this.$emit('deleteItemList', id) // прокидываем в компоненту budgetList id кликнутого item
+      this.$emit('deleteItemId', id) // прокидываем в компоненту budgetList id кликнутого item
     }
   }
 }

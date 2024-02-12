@@ -3,7 +3,7 @@
     <ElCard :header="header">
       <template v-if="!IsEmpty">
         <div v-for="(item, prop) in list" :key="prop">
-          <BudgetListItem :list-item="item" @deleteItemList="onDeleteItem"/>
+          <BudgetListItem :list-item="item" @deleteItemId="broadcastItemId"/>
           <!-- <span class="budget-comment"> {{ item.comment }} </span>
           <span class="budget-value"> {{item.value}} </span>
           <ElButton type="danger" size="mini" @click="deleteItem(item.id)">Delete</ElButton> -->
@@ -39,8 +39,8 @@ export default {
     },
   },
   methods: {
-    onDeleteItem(id) {
-      this.$emit('broadcastId', id) // принимаем из компоненты BudgetListItem id кликнутого item и передаем его дальше в компоненту App
+    broadcastItemId(id) {
+      this.$emit('deleteItemId', id) // принимаем из компоненты BudgetListItem id кликнутого item и передаем его дальше в компоненту App
     },
   },
 }
