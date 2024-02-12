@@ -2,7 +2,7 @@
   <div id="app">
     <FormBudget @submitForm="onFormSubmit"/>
     <TotalBalance :total="totalBalanceList"/>
-    <BudgetList :list="list" @deleteItemList="onDeleteItem"/>
+    <BudgetList :list="list" @broadcastId="onDeleteItem"/>
   </div>
 </template>
 
@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     onDeleteItem(id) {
-      this.$delete(this.list, id)
+      this.$delete(this.list, id) // принимаем из компоненты BudgetList id кликнутого item в компоненте BudgetListItem
     },
     onFormSubmit(data) {
       console.log(data);

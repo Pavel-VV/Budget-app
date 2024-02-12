@@ -2,10 +2,11 @@
   <div class="budget-list-wrap">
     <ElCard :header="header">
       <template v-if="!IsEmpty">
-        <div class="list-item" v-for="(item, prop) in list" :key="prop">
-          <span class="budget-comment"> {{ item.comment }} </span>
+        <div v-for="(item, prop) in list" :key="prop">
+          <BudgetListItem :list-item="item" @deleteItemList="onDeleteItem"/>
+          <!-- <span class="budget-comment"> {{ item.comment }} </span>
           <span class="budget-value"> {{item.value}} </span>
-          <ElButton type="danger" size="mini" @click="deleteItem(item.id)">Delete</ElButton>
+          <ElButton type="danger" size="mini" @click="deleteItem(item.id)">Delete</ElButton> -->
         </div>
       </template>
       <ElAlert v-else type="info" :title="emptyTitle" :closable="false" ></ElAlert>
@@ -14,11 +15,17 @@
 </template>
 
 <script>
+import BudgetListItem from '@/components/BudgetListItem'
+
 export default {
   name: 'BudgestList',
+  components: {
+    BudgetListItem,
+  },
   data: () => ({
     header: "Budget List",
     emptyTitle: "Empty List",
+    itemId: "",
   }),
   props: {
     list: {
@@ -32,8 +39,8 @@ export default {
     },
   },
   methods: {
-    deleteItem(id) {
-      this.$emit('deleteItemList', id)
+    onDeleteItem(id) {
+      this.$emit('broadcastId', id) // принимаем из компоненты BudgetListItem id кликнутого item и передаем его дальше в компоненту App
     },
   },
 }
@@ -45,11 +52,11 @@ export default {
     margin: auto;
   }
 
-  .list-item {
+  /* .list-item {
     display: flex;
     align-items: center;
     padding: 10px 15px;
-  }
+  } */
 
   .budget-value {
     font-weight: bold;
@@ -58,4 +65,4 @@ export default {
   }
 </style>
 
-// 2нужно передать в качестве props один item при переборе v-for, в компоненту BudgestListItem и там сформировать один элемент списка
+// нужно передать в качестве props один item при переборе v-for, в компоненту BudgestListItem и там сформировать один элемент списка
