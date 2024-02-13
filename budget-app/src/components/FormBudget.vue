@@ -44,7 +44,11 @@ export default {
     onSubmit() {
       this.$refs.addItemForm.validate((valid) => {
         if(valid) {
-          this.$emit('submitForm', {...this.formData});
+          const newObj = { ...this.formData }
+          if(newObj.type === 'OUTCOME') { // если выбрали в выпадающем списке "расходы" значит графа value должна быть с отрицательным числом
+            newObj.value = newObj.value > 0 ? Number('-' + String(newObj.value)) : newObj.value; // если число положительно, значит преобразуем в строку и конкатенируем с минусом, а потом преобразуем обратно в число, если отрицательно, оставляем как есть
+          }
+          this.$emit('submitForm', newObj);
           this.$refs.addItemForm.resetFields();
         }
       })

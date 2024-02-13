@@ -44,12 +44,12 @@ export default {
       this.$delete(this.list, id) // принимаем из компоненты BudgetList id кликнутого item в компоненте BudgetListItem
     },
     onFormSubmit(data) {
-      console.log(data);
+      // console.log(data);
       const newObj = {
         ...data,
         id: String(Math.random()),
       };
-      console.log(newObj)
+      // console.log(newObj)
       this.$set(this.list, newObj.id, newObj)
     },
   },
