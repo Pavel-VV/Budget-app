@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <!-- <div>
     <template v-if="total > 0">
       <div class="total-value balance-positive">Total Balance: {{total}} </div>
     </template>
@@ -9,7 +9,8 @@
     <template v-else>
       <div class="total-value balance-negative">Total Balance: {{total}} </div>
     </template>
-  </div>
+  </div> -->
+  <div  class="total-value" :class="total > 0 ? 'balance-positive' : total === 0 ? 'balance-neutral' : 'balance-negative' ">Total Balance: {{total}} </div>
 </template>
 
 <script>
