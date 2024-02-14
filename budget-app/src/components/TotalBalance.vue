@@ -10,7 +10,7 @@
       <div class="total-value balance-negative">Total Balance: {{total}} </div>
     </template>
   </div> -->
-  <div  class="total-value" :class="total > 0 ? 'balance-positive' : total === 0 ? 'balance-neutral' : 'balance-negative' ">Total Balance: {{total}}</div>
+  <div  class="total-value" :class="balanceColor(total)">Total Balance: {{total}}</div>
 </template>
 
 <script>
@@ -20,6 +20,11 @@ export default {
     total: {
       type: Number,
       default: 0,
+    },
+  },
+  methods: {
+    balanceColor(total) {
+      return total > 0 ? 'balance-positive' : total === 0 ? 'balance-neutral' : 'balance-negative';
     },
   },
 }
