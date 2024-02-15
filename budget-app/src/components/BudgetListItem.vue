@@ -1,7 +1,8 @@
 <template>
   <div class="list-item">
-    <span class="budget-comment"> {{ listItem.comment }} </span>
-    <span class="budget-value"> {{ listItem.value }} </span>
+    <span class="budget-comment"> {{ listItem.comment }}</span>
+    <span class="budget-value" :class="colorNumberClass"> {{ listItem.value }} </span>
+    <i class="budget-icon" :class="typeIcon"></i>
     <ElButton type="danger" size="mini" @click="dialogVisible = true">Delete</ElButton>
     <ElDialog
       :visible.sync="dialogVisible"
@@ -33,6 +34,23 @@ export default {
       // if(!confirm('Вы уверены?')) return;
       this.dialogVisible = false;
       this.$emit('deleteItemId', id) // прокидываем в компоненту budgetList id кликнутого item
+    },
+    // typeIcon(value) {
+    //   return value === "INCOME" ? "el-icon-top" : "el-icon-bottom";
+    // }
+  },
+  computed: {
+    typeIcon() {
+      return {
+        "el-icon-top": this.listItem.type === "INCOME",
+        "el-icon-bottom": this.listItem.type === "OUTCOME",
+      }
+    },
+    colorNumberClass() {
+      return {
+        'income': this.listItem.type === "INCOME",
+        'outcome': this.listItem.type === "OUTCOME"
+      }
     }
   }
 }
@@ -48,6 +66,18 @@ export default {
 .budget-value {
   font-weight: bold;
   margin-left: auto;
-  margin-right: 20px;
+  margin-right: 10px;
+}
+
+.budget-icon {
+  margin-right: 10px;
+}
+
+.income {
+  color: green;
+}
+
+.outcome {
+  color: red;
 }
 </style>
