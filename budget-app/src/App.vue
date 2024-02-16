@@ -2,14 +2,14 @@
   <div id="app">
     <FormBudget @submitForm="onFormSubmit"/>
     <TotalBalance :total="totalBalanceList"/>
-    <BudgetList :list="list" @deleteItemId="onDeleteItem"/>
+    <BudgetList :list="list" @deleteItemId="onDeleteItem" @StateList="onStateList"/>
   </div>
 </template>
 
 <script>
 import BudgetList from '@/components/BudgetList';
 import TotalBalance from '@/components/TotalBalance';
-import FormBudget from '@/components/FormBudget'
+import FormBudget from '@/components/FormBudget';
 
 export default {
   name: 'App',
@@ -52,6 +52,11 @@ export default {
       // console.log(newObj)
       this.$set(this.list, newObj.id, newObj)
     },
+    onStateList(valueState) { //принимает значение нажатой кнопки сортировки
+      Object.values(this.list).forEach((listItem) => { // перебираем список
+        this.$set(listItem, 'visible', valueState) // устанавливаем в список новый ключ с переданым значением visible: valueState
+      });
+    }
   },
 }
 </script>

@@ -1,9 +1,16 @@
 <template>
   <div class="budget-list-wrap">
+    <div class="list-sort">
+      <ElButton size="mini" data-sort="INCOME" @click="onSort">Расходы</ElButton>
+      <ElButton size="mini" data-sort="OUTCOME" @click="onSort">Доходы</ElButton>
+      <ElButton size="mini" data-sort="ALL" @click="onSort">Показать все</ElButton>
+    </div>
     <ElCard :header="header">
       <template v-if="!IsEmpty">
         <div v-for="(item, prop) in list" :key="prop">
-          <BudgetListItem :list-item="item" @deleteItemId="broadcastItemId"/>
+          <BudgetListItem :class="setShudow(item)" :list-item="item" @deleteItemId="broadcastItemId"/> <!-- устанавливаем класс shudow в зависимости от выполнения условия в методу setShudow-->
+
+          <!-- {{item.visible}} -->
           <!-- <span class="budget-comment"> {{ item.comment }} </span>
           <span class="budget-value"> {{item.value}} </span>
           <ElButton type="danger" size="mini" @click="deleteItem(item.id)">Delete</ElButton> -->
@@ -25,7 +32,7 @@ export default {
   data: () => ({
     header: "Budget List",
     emptyTitle: "Empty List",
-    itemId: "",
+    itemType: "",
   }),
   props: {
     list: {
@@ -37,11 +44,22 @@ export default {
     IsEmpty() {
       return !Object.keys(this.list).length;
     },
+
   },
   methods: {
     broadcastItemId(id) {
       this.$emit('deleteItemId', id) // принимаем из компоненты BudgetListItem id кликнутого item и передаем его дальше в компоненту App
     },
+    onSort(e) {
+      let state = e.target.closest('button').dataset.sort; //находим значение data-set в котором описано что будем скрывать при нажатии
+      // console.log(state);
+      this.$emit('StateList', state); // передаем в App.vue значение data-set
+    },
+    setShudow(item) {
+      return {
+        'shudow': item.type === item.visible,
+      }
+    }
   },
 }
 </script>
@@ -62,6 +80,14 @@ export default {
     font-weight: bold;
     margin-left: auto;
     margin-right: 20px;
+  }
+
+  .list-sort {
+    padding: 10px 0px;
+  }
+
+  .shudow {
+    display: none;
   }
 </style>
 
