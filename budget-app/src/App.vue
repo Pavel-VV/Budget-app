@@ -2,7 +2,7 @@
   <div id="app">
     <FormBudget @submitForm="onFormSubmit"/>
     <TotalBalance :total="totalBalanceList"/>
-    <BudgetList :list="list" @deleteItemId="onDeleteItem" @StateList="onStateList"/>
+    <BudgetList :list="list" @deleteItemId="onDeleteItem"/>
   </div>
 </template>
 
@@ -52,11 +52,6 @@ export default {
       // console.log(newObj)
       this.$set(this.list, newObj.id, newObj)
     },
-    onStateList(valueState) { //принимает значение нажатой кнопки сортировки
-      Object.values(this.list).forEach((listItem) => { // перебираем список
-        this.$set(listItem, 'visible', valueState) // устанавливаем в список новый ключ с переданым значением visible: valueState
-      });
-    }
   },
 }
 </script>

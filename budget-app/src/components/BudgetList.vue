@@ -1,8 +1,8 @@
 <template>
   <div class="budget-list-wrap">
     <div class="list-sort">
-      <ElButton size="mini" data-sort="INCOME" @click="onSort">Расходы</ElButton>
-      <ElButton size="mini" data-sort="OUTCOME" @click="onSort">Доходы</ElButton>
+      <ElButton size="mini" data-sort="OUTCOME" @click="onSort">Расходы</ElButton>
+      <ElButton size="mini" data-sort="INCOME" @click="onSort">Доходы</ElButton>
       <ElButton size="mini" data-sort="ALL" @click="onSort">Показать все</ElButton>
     </div>
     <ElCard :header="header">
@@ -32,7 +32,7 @@ export default {
   data: () => ({
     header: "Budget List",
     emptyTitle: "Empty List",
-    itemType: "",
+    itemVisibleClickButton: "ALL", // стартовое значение стоит ALL чтоб при первой загрузке все элементы списка отображались
   }),
   props: {
     list: {
@@ -53,11 +53,11 @@ export default {
     onSort(e) {
       let state = e.target.closest('button').dataset.sort; //находим значение data-set в котором описано что будем скрывать при нажатии
       // console.log(state);
-      this.$emit('StateList', state); // передаем в App.vue значение data-set
+      this.itemVisibleClickButton = state; // сохраням значение кнопки
     },
     setShudow(item) {
       return {
-        'shudow': item.type === item.visible,
+        'shudow': item.type !== this.itemVisibleClickButton && "ALL" !== this.itemVisibleClickButton, // если значение нажатой кнопки совпадает с типом списка, класс не применяется к этому спису, а применя к списку где нет совпадений
       }
     }
   },
