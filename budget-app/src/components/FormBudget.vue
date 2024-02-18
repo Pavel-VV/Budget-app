@@ -21,7 +21,15 @@
 <script>
 export default {
   name: 'FormBudget',
-  data: () => ({
+  data: () => {
+    let validateZero = (rule, value, callback) => {
+      if(value === 0) {
+        callback(new Error('Input a number other than zero'));
+      }else {
+        callback();
+      }
+    }
+    return ({
     formData: {
       type: 'INCOME',
       comment: '',
@@ -36,11 +44,19 @@ export default {
       ],
       value: [
         { required: true, message: 'Please input value', trigger: 'change' },
-        { type: 'number', message: 'Value must be a number', trigger: 'change' }
+        { type: 'number', message: 'Value must be a number', trigger: 'change' },
+        {validator: validateZero, trigger: 'blur'}
       ],
     },
-  }),
+  })},
   methods: {
+    // validateZero(rule, value, callback) {
+    //   if(value === 0) {
+    //     callback(new Error('Введите сумму'));
+    //   }else {
+    //     callback();
+    //   }
+    // },
     onSubmit() {
       this.$refs.addItemForm.validate((valid) => {
         if(valid) {
