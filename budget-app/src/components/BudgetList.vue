@@ -1,10 +1,11 @@
 <template>
   <div class="budget-list-wrap">
-    <div class="list-sort">
+    <!-- <div class="list-sort">
       <ElButton size="mini" data-sort="OUTCOME" @click="onSort">Расходы</ElButton>
       <ElButton size="mini" data-sort="INCOME" @click="onSort">Доходы</ElButton>
       <ElButton size="mini" data-sort="ALL" @click="onSort">Показать все</ElButton>
-    </div>
+    </div> -->
+    <BudgetListSort @onSortState="onSort"/>
     <ElCard :header="header">
       <template v-if="!IsEmpty">
         <div v-for="(item, prop) in list" :key="prop">
@@ -23,11 +24,13 @@
 
 <script>
 import BudgetListItem from '@/components/BudgetListItem'
+import BudgetListSort from '@/components/BudgetListSort'
 
 export default {
   name: 'BudgestList',
   components: {
     BudgetListItem,
+    BudgetListSort,
   },
   data: () => ({
     header: "Budget List",
@@ -50,10 +53,13 @@ export default {
     broadcastItemId(id) {
       this.$emit('deleteItemId', id) // принимаем из компоненты BudgetListItem id кликнутого item и передаем его дальше в компоненту App
     },
-    onSort(e) {
-      let state = e.target.closest('button').dataset.sort; //находим значение data-set в котором описано что будем скрывать при нажатии
-      // console.log(state);
-      this.itemVisibleClickButton = state; // сохраням значение кнопки
+    // onSort(e) {
+    //   let state = e.target.closest('button').dataset.sort; //находим значение data-set в котором описано что будем скрывать при нажатии
+    //   // console.log(state);
+    //   this.itemVisibleClickButton = state; // сохраням значение кнопки
+    // },
+    onSort(clickState) { // принимаем из компоненты BudgetListSort значение кликнутой кнопки
+      this.itemVisibleClickButton = clickState;
     },
     setShudow(item) {
       return {
@@ -80,10 +86,6 @@ export default {
     font-weight: bold;
     margin-left: auto;
     margin-right: 20px;
-  }
-
-  .list-sort {
-    padding: 10px 0px;
   }
 
   .shudow {
