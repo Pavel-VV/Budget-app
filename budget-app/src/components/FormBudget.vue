@@ -22,41 +22,34 @@
 export default {
   name: 'FormBudget',
   data: () => {
-    let validateZero = (rule, value, callback) => {
+    let validateZero = (rule, value, callback) => { // кастомный валидатор
       if(value === 0) {
         callback(new Error('Input a number other than zero'));
       }else {
         callback();
       }
-    }
-    return ({
-    formData: {
-      type: 'INCOME',
-      comment: '',
-      value: 0,
-    },
-    rules: {
-      type: [
-        { required: true, message: 'Please select type', trigger: 'blur' },
-      ],
-      comment: [
-        { required: true, message: 'Please input comment', trigger: 'change' },
-      ],
-      value: [
-        { required: true, message: 'Please input value', trigger: 'change' },
-        { type: 'number', message: 'Value must be a number', trigger: 'change' },
-        {validator: validateZero, trigger: 'blur'}
-      ],
-    },
-  })},
+    };
+    return {
+      formData: {
+        type: 'INCOME',
+        comment: '',
+        value: 0,
+      },
+      rules: {
+        type: [
+          { required: true, message: 'Please select type', trigger: 'blur' },
+        ],
+        comment: [
+          { required: true, message: 'Please input comment', trigger: 'change' },
+        ],
+        value: [
+          { required: true, message: 'Please input value', trigger: 'change' },
+          { type: 'number', message: 'Value must be a number', trigger: 'change' },
+          {validator: validateZero, trigger: 'blur'}
+        ],
+      },
+    }},
   methods: {
-    // validateZero(rule, value, callback) {
-    //   if(value === 0) {
-    //     callback(new Error('Введите сумму'));
-    //   }else {
-    //     callback();
-    //   }
-    // },
     onSubmit() {
       this.$refs.addItemForm.validate((valid) => {
         if(valid) {
@@ -83,5 +76,3 @@ export default {
     width: 100%;
   }
 </style>
-
-// 23.10
